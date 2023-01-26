@@ -48,7 +48,7 @@ class Term {
 
     if (skipStep !== BUILD_STEP) {
       const script = buildScript || "build";
-      await exec(`${manager} run ${script}`, [], {
+      await exec(`${manager} ${script}`, [], {
         cwd: directory
       });
     }
