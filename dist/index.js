@@ -12171,7 +12171,7 @@ class Term {
                         output += data.toString();
                     }
                 },
-                cwd: directory
+                cwd: "./check-size"
             });
             if (cleanScript) {
                 yield exec_1.exec(`${manager} run ${cleanScript}`, [], {
