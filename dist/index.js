@@ -12153,13 +12153,13 @@ class Term {
                 yield exec_1.exec(`git checkout -f ${branch}`);
             }
             if (skipStep !== INSTALL_STEP && skipStep !== BUILD_STEP) {
-                yield exec_1.exec(`${manager} install`, [], {
+                yield exec_1.exec(`bit install`, [], {
                     cwd: directory
                 });
             }
             if (skipStep !== BUILD_STEP) {
                 const script = buildScript || "build";
-                yield exec_1.exec(`${manager} run ${script}`, [], {
+                yield exec_1.exec(`bit build`, [], {
                     cwd: directory
                 });
             }
