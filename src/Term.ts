@@ -61,7 +61,7 @@ class Term {
           output += data.toString();
         }
       },
-      cwd: directory
+      cwd: "./check-size"
     });
 
     if (cleanScript) {
