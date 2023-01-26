@@ -41,14 +41,14 @@ class Term {
     }
 
     if (skipStep !== INSTALL_STEP && skipStep !== BUILD_STEP) {
-      await exec(`${manager} install`, [], {
+      await exec(`bit install`, [], {
         cwd: directory
       });
     }
 
     if (skipStep !== BUILD_STEP) {
       const script = buildScript || "build";
-      await exec(`${manager} ${script}`, [], {
+      await exec(`bit build`, [], {
         cwd: directory
       });
     }
