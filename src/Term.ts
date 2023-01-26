@@ -27,27 +27,13 @@ class Term {
     script?: string,
     packageManager?: string
   ): Promise<{ status: number; output: string }> {
-    const manager = packageManager || this.getPackageManager(directory);
     let output = "";
 
-    if (branch) {
-      try {
-        await exec(`git fetch origin ${branch} --depth=1`);
-      } catch (error) {
-        console.log("Fetch failed", error.message);
-      }
-
-      await exec(`git checkout -f ${branch}`);
-    }
-
-    if (skipStep !== INSTALL_STEP && skipStep !== BUILD_STEP) {
+    if (!branch) {
       await exec(`bit install`, [], {
         cwd: directory
       });
-    }
-
-    if (skipStep !== BUILD_STEP) {
-      const script = buildScript || "build";
+      
       await exec(`bit build`, [], {
         cwd: directory
       });
@@ -63,12 +49,6 @@ class Term {
       },
       cwd: "./check-size"
     });
-
-    if (cleanScript) {
-      await exec(`${manager} run ${cleanScript}`, [], {
-        cwd: directory
-      });
-    }
 
     return {
       status,
