@@ -3848,8 +3848,8 @@ function run() {
             const octokit = new github_1.GitHub(token);
             const term = new Term_1.default();
             const limit = new SizeLimit_1.default();
-            const { status, output } = yield term.execSizeLimit(null, skipStep, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager);
             const { output: baseOutput } = yield term.execSizeLimit(pr.base.ref, null, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager);
+            const { status, output } = yield term.execSizeLimit(null, skipStep, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager);
             let base;
             let current;
             try {
@@ -12141,24 +12141,11 @@ class Term {
     }
     execSizeLimit(branch, skipStep, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager) {
         return __awaiter(this, void 0, void 0, function* () {
-            const manager = packageManager || this.getPackageManager(directory);
             let output = "";
-            if (branch) {
-                try {
-                    yield exec_1.exec(`git fetch origin ${branch} --depth=1`);
-                }
-                catch (error) {
-                    console.log("Fetch failed", error.message);
-                }
-                yield exec_1.exec(`git checkout -f ${branch}`);
-            }
-            if (skipStep !== INSTALL_STEP && skipStep !== BUILD_STEP) {
+            if (!branch) {
                 yield exec_1.exec(`bit install`, [], {
                     cwd: directory
                 });
-            }
-            if (skipStep !== BUILD_STEP) {
-                const script = buildScript || "build";
                 yield exec_1.exec(`bit build`, [], {
                     cwd: directory
                 });
@@ -12173,11 +12160,6 @@ class Term {
                 },
                 cwd: "./check-size"
             });
-            if (cleanScript) {
-                yield exec_1.exec(`${manager} run ${cleanScript}`, [], {
-                    cwd: directory
-                });
-            }
             return {
                 status,
                 output
