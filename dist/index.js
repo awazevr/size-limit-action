@@ -3848,8 +3848,8 @@ function run() {
             const octokit = new github_1.GitHub(token);
             const term = new Term_1.default();
             const limit = new SizeLimit_1.default();
-            const { output: baseOutput } = yield term.execSizeLimit(pr.base.ref, null, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager);
             const { status, output } = yield term.execSizeLimit(null, skipStep, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager);
+            const { output: baseOutput } = yield term.execSizeLimit(pr.base.ref, null, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager);
             let base;
             let current;
             try {
@@ -12142,11 +12142,18 @@ class Term {
     execSizeLimit(branch, skipStep, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager) {
         return __awaiter(this, void 0, void 0, function* () {
             let output = "";
-            if (!branch) {
-                yield exec_1.exec(`bit compile`, [], {
-                    cwd: directory
-                });
+            if (branch) {
+                try {
+                    yield exec_1.exec(`git fetch origin ${branch} --depth=1`);
+                }
+                catch (error) {
+                    console.log("Fetch failed", error.message);
+                }
+                yield exec_1.exec(`git checkout -f ${branch}`);
             }
+            yield exec_1.exec(`bit compile`, [], {
+                cwd: directory
+            });
             const status = yield exec_1.exec(script, [], {
                 windowsVerbatimArguments,
                 ignoreReturnCode: true,
