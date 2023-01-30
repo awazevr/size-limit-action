@@ -30,10 +30,6 @@ class Term {
     let output = "";
 
     if (!branch) {
-      await exec(`bit install`, [], {
-        cwd: directory
-      });
-      
       await exec(`bit build`, [], {
         cwd: directory
       });
