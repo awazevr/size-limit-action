@@ -30,7 +30,7 @@ class Term {
     let output = "";
 
     if (!branch) {
-      await exec(`bit build --skip-tests`, [], {
+      await exec(`bit compile`, [], {
         cwd: directory
       });
     }
