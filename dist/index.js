@@ -12162,7 +12162,7 @@ class Term {
                         output += data.toString();
                     }
                 },
-                cwd: "$GITHUB_WORKSPACE/check-size"
+                cwd: "$RUNNER_TEMP/check-size"
             });
             return {
                 status,
