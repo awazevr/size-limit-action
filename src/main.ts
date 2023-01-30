@@ -52,9 +52,9 @@ async function run() {
     const term = new Term();
     const limit = new SizeLimit();
     
-    const { output: baseOutput } = await term.execSizeLimit(
-      pr.base.ref,
+    const { status, output } = await term.execSizeLimit(
       null,
+      skipStep,
       buildScript,
       cleanScript,
       windowsVerbatimArguments,
@@ -63,9 +63,9 @@ async function run() {
       packageManager
     );
 
-    const { status, output } = await term.execSizeLimit(
+    const { output: baseOutput } = await term.execSizeLimit(
+      pr.base.ref,
       null,
-      skipStep,
       buildScript,
       cleanScript,
       windowsVerbatimArguments,
