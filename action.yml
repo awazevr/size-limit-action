@@ -28,6 +28,9 @@ inputs:
     required: false
     default: "npx size-limit --json"
     description: "The script used to generate size-limit results"
+  runner_temp:
+    required: true
+    description: 'temporary running directory with check-size directory'
   package_manager:
     required: false
     description: "The package manager used to run the build and install commands. If not provided, the manager will be auto detected. Example values: `yarn`, `npm`, `pnpm`."
