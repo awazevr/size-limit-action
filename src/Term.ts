@@ -42,8 +42,6 @@ class Term {
     await exec(`bit compile`, [], {
       cwd: directory
     });
-      
-    await exec(`git checkout -f feature/ds-244/monitor-package-sizes`);
 
     const status = await exec(script, [], {
       windowsVerbatimArguments,
@@ -53,7 +51,7 @@ class Term {
           output += data.toString();
         }
       },
-      cwd: "./check-size"
+      cwd: "$GITHUB_WORKSPACE/check-size"
     });
 
     return {
