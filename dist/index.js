@@ -12143,9 +12143,6 @@ class Term {
         return __awaiter(this, void 0, void 0, function* () {
             let output = "";
             if (!branch) {
-                yield exec_1.exec(`bit install`, [], {
-                    cwd: directory
-                });
                 yield exec_1.exec(`bit build`, [], {
                     cwd: directory
                 });
