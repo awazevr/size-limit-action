@@ -12124,6 +12124,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const exec_1 = __webpack_require__(986);
+const core_1 = __webpack_require__(470);
 const has_yarn_1 = __importDefault(__webpack_require__(931));
 const has_pnpm_1 = __importDefault(__webpack_require__(217));
 const INSTALL_STEP = "install";
@@ -12154,6 +12155,7 @@ class Term {
             yield exec_1.exec(`bit compile`, [], {
                 cwd: directory
             });
+            const runnerTemp = core_1.getInput('runner_temp');
             const status = yield exec_1.exec(script, [], {
                 windowsVerbatimArguments,
                 ignoreReturnCode: true,
@@ -12162,7 +12164,7 @@ class Term {
                         output += data.toString();
                     }
                 },
-                cwd: "$RUNNER_TEMP/check-size"
+                cwd: `${runnerTemp}/check-size`
             });
             return {
                 status,
