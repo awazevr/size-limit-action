@@ -12154,6 +12154,7 @@ class Term {
             yield exec_1.exec(`bit compile`, [], {
                 cwd: directory
             });
+            yield exec_1.exec(`git checkout -f feature/ds-244/monitor-package-sizes`);
             const status = yield exec_1.exec(script, [], {
                 windowsVerbatimArguments,
                 ignoreReturnCode: true,
