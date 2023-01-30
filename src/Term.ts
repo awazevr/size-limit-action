@@ -1,4 +1,5 @@
 import { exec } from "@actions/exec";
+import { getInput } from "@actions/core";
 import hasYarn from "has-yarn";
 import hasPNPM from "has-pnpm";
 
@@ -42,6 +43,9 @@ class Term {
     await exec(`bit compile`, [], {
       cwd: directory
     });
+      
+      
+    const runnerTemp = getInput('runner_temp')
 
     const status = await exec(script, [], {
       windowsVerbatimArguments,
@@ -51,7 +55,7 @@ class Term {
           output += data.toString();
         }
       },
-      cwd: "$RUNNER_TEMP/check-size"
+      cwd: `${runnerTemp}/check-size`
     });
 
     return {
