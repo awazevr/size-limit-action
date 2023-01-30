@@ -28,12 +28,20 @@ class Term {
     packageManager?: string
   ): Promise<{ status: number; output: string }> {
     let output = "";
+      
+    if (branch) {
+      try {
+        await exec(`git fetch origin ${branch} --depth=1`);
+      } catch (error) {
+        console.log("Fetch failed", error.message);
+      }
 
-    if (!branch) {
-      await exec(`bit compile`, [], {
-        cwd: directory
-      });
+      await exec(`git checkout -f ${branch}`);
     }
+
+    await exec(`bit compile`, [], {
+      cwd: directory
+    });
 
     const status = await exec(script, [], {
       windowsVerbatimArguments,
