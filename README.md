@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  A GitHub action that compares the real cost of your JavaScript in every pull request
+  A GitHub action that compares the real cost of your JavaScript in every pull request.<br/> This has been customised for Awaze to use with bit system rather than pnpm / npm / other package managers. <br/> See: https://github.com/awazevr/design-system/pull/1209
 </p>
 <p align="center">
   <img alt="tests status" src="https://github.com/andresz1/size-limit-action/workflows/test/badge.svg">
