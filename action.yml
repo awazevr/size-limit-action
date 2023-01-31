@@ -8,22 +8,9 @@ inputs:
   github_token:
     required: true
     description: 'a github access token'
-  build_script:
-    required: false
-    description: 'a custom npm script to build'
-  clean_script:
-    required: false
-    description: 'a npm script to clean up build directory'
-  skip_step:
-    required: false
-    description: 'which step to skip, either "install" or "build"'
   directory:
     required: false
     description: "a custom subdirectory"
-  windows_verbatim_arguments:
-    required: false
-    description: "exec `size-limit` with the option `windowsVerbatimArguments`"
-    default: true
   script:
     required: false
     default: "npx size-limit --json"
@@ -31,9 +18,6 @@ inputs:
   runner_temp:
     required: true
     description: 'temporary running directory with check-size directory'
-  package_manager:
-    required: false
-    description: "The package manager used to run the build and install commands. If not provided, the manager will be auto detected. Example values: `yarn`, `npm`, `pnpm`."
 runs:
   using: 'node12'
   main: 'dist/index.js'

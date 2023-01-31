@@ -20,16 +20,12 @@ class Term {
 
   async execSizeLimit(
     branch?: string,
-    skipStep?: string,
-    buildScript?: string,
-    cleanScript?: string,
-    windowsVerbatimArguments?: boolean,
     directory?: string,
     script?: string,
-    packageManager?: string
   ): Promise<{ status: number; output: string }> {
     let output = "";
-      
+    const runnerTemp = getInput("runner_temp");
+
     if (branch) {
       try {
         await exec(`git fetch origin ${branch} --depth=1`);
@@ -44,11 +40,8 @@ class Term {
       cwd: directory
     });
       
-      
-    const runnerTemp = getInput('runner_temp')
 
     const status = await exec(script, [], {
-      windowsVerbatimArguments,
       ignoreReturnCode: true,
       listeners: {
         stdout: (data: Buffer) => {

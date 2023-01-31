@@ -3838,18 +3838,13 @@ function run() {
                 throw new Error("No PR found. Only pull_request workflows are supported.");
             }
             const token = core_1.getInput("github_token");
-            const skipStep = core_1.getInput("skip_step");
-            const buildScript = core_1.getInput("build_script");
-            const cleanScript = core_1.getInput("clean_script");
             const script = core_1.getInput("script");
-            const packageManager = core_1.getInput("package_manager");
             const directory = core_1.getInput("directory") || process.cwd();
-            const windowsVerbatimArguments = core_1.getInput("windows_verbatim_arguments") === "true" ? true : false;
             const octokit = new github_1.GitHub(token);
             const term = new Term_1.default();
             const limit = new SizeLimit_1.default();
-            const { status, output } = yield term.execSizeLimit(null, skipStep, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager);
-            const { output: baseOutput } = yield term.execSizeLimit(pr.base.ref, null, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager);
+            const { status, output } = yield term.execSizeLimit(null, directory, script);
+            const { output: baseOutput } = yield term.execSizeLimit(pr.base.ref, directory, script);
             let base;
             let current;
             try {
@@ -12140,9 +12135,10 @@ class Term {
     getPackageManager(directory) {
         return has_yarn_1.default(directory) ? "yarn" : has_pnpm_1.default(directory) ? "pnpm" : "npm";
     }
-    execSizeLimit(branch, skipStep, buildScript, cleanScript, windowsVerbatimArguments, directory, script, packageManager) {
+    execSizeLimit(branch, directory, script) {
         return __awaiter(this, void 0, void 0, function* () {
             let output = "";
+            const runnerTemp = core_1.getInput("runner_temp");
             if (branch) {
                 try {
                     yield exec_1.exec(`git fetch origin ${branch} --depth=1`);
@@ -12155,9 +12151,7 @@ class Term {
             yield exec_1.exec(`bit compile`, [], {
                 cwd: directory
             });
-            const runnerTemp = core_1.getInput('runner_temp');
             const status = yield exec_1.exec(script, [], {
-                windowsVerbatimArguments,
                 ignoreReturnCode: true,
                 listeners: {
                     stdout: (data) => {
